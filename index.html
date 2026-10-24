@@ -1,0 +1,383 @@
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #0e1118;
+  --surface: #171c26;
+  --surface-raised: #202735;
+  --border: rgba(255, 255, 255, .09);
+  --text: #f4f6fb;
+  --muted: #9ba6b8;
+  --accent: #c4f36b;
+  --accent-dark: #1c2810;
+  --radius: 18px;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding:
+    max(24px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(28px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(117, 88, 184, .22), transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  width: min(100%, 520px);
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(196, 243, 107, .25);
+  border-radius: 14px;
+  background: rgba(196, 243, 107, .1);
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+
+.brand p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.online-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,.035);
+  color: #d4dbea;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.online-badge::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(196, 243, 107, .55);
+  content: "";
+}
+
+.card {
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018)), var(--surface);
+  box-shadow: 0 14px 36px rgba(0,0,0,.16);
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+.section-heading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+button {
+  min-height: 42px;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:hover { border-color: rgba(255,255,255,.2); }
+button:active { transform: scale(.98); }
+
+button.on {
+  border-color: rgba(196, 243, 107, .45);
+  background: var(--accent);
+  color: #14190d;
+}
+
+#t_0, #t_160, #t_210 {
+  min-height: 38px;
+  padding: 8px 7px;
+  font-size: 11px;
+}
+
+.room-controls {
+  display: grid;
+  grid-template-columns: 1fr 84px auto;
+  gap: 8px;
+}
+
+.room-controls button:first-child {
+  background: rgba(196,243,107,.1);
+  border-color: rgba(196,243,107,.18);
+  color: var(--accent);
+}
+
+input {
+  min-width: 0;
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+  background: #111620;
+  color: var(--text);
+  font: inherit;
+}
+
+input:focus { border-color: rgba(196,243,107,.6); }
+
+#code {
+  width: 100% !important;
+  padding: 8px;
+  text-align: center;
+  letter-spacing: .15em;
+}
+
+#net {
+  min-height: 16px;
+  margin: 11px 2px 0;
+  color: var(--muted);
+  font-size: 11px !important;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.board-card {
+  padding: 10px;
+  overflow: hidden;
+  background: #111620;
+}
+
+canvas {
+  display: block;
+  width: min(100%, 400px);
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.3);
+  touch-action: none;
+}
+
+.score-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin: 12px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.control-card {
+  padding: 15px 16px 13px;
+}
+
+.instruction {
+  margin: 0 0 12px;
+  color: #d4dbea;
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.instruction strong {
+  color: var(--accent);
+}
+
+#s {
+  display: block;
+  width: 100%;
+  height: 26px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--accent);
+  touch-action: pan-x;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.action-row button {
+  min-height: 38px;
+  font-size: 11px;
+}
+
+.help-text {
+  margin: 12px 2px 2px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+@media (min-width: 700px) {
+  body { padding-top: 36px; }
+  .app { width: min(100%, 480px); }
+}
+
+@media (max-width: 360px) {
+  body { padding-right: 12px; padding-left: 12px; }
+  .card { padding: 13px; }
+  button { padding-right: 7px; padding-left: 7px; font-size: 11px; }
+  .online-badge { padding: 7px 9px; font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">✦</div>
+      <div>
+        <h1>Faz Carrom</h1>
+        <p>Classic board. Your next move.</p>
+      </div>
+    </div>
+    <div class="online-badge">Online ready</div>
+  </header>
+
+  <section class="card">
+    <div class="section-heading">
+      <h2>Choose a game</h2>
+      <span>Play your way</span>
+    </div>
+    <div class="button-row">
+      <button id="m_cpu" onclick="startGame('cpu')">vs Computer</button>
+      <button id="m_2p" onclick="startGame('2p')">2 Players</button>
+      <button id="m_4p" onclick="startGame('4p')">4 Players</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <h2>Scoring mode</h2>
+      <span>Choose a target</span>
+    </div>
+    <div class="button-row">
+      <button id="t_0" onclick="setTarget(0)">Classic</button>
+      <button id="t_160" onclick="setTarget(160)">Freestyle 160</button>
+      <button id="t_210" onclick="setTarget(210)">Freestyle 210</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <h2>Play online</h2>
+      <span>Connect with a friend</span>
+    </div>
+    <div class="room-controls">
+      <button onclick="createRoom()">Create room</button>
+      <input id="code" placeholder="CODE" maxlength="4" inputmode="numeric" aria-label="Four-digit room code">
+      <button onclick="joinRoom()">Join</button>
+    </div>
+    <p id="net">One phone taps Create room. The other enters the code and taps Join.</p>
+  </section>
+
+  <section class="card board-card" aria-label="Carrom game board">
+    <canvas id="c" width="400" height="400"></canvas>
+  </section>
+
+  <div id="score" class="score-card" aria-live="polite">White 0/9 | Black 0/9 | Turn: White</div>
+
+  <section class="card control-card">
+    <p class="instruction"><strong>1.</strong> Position the striker with the slider.</p>
+    <input id="s" type="range" min="90" max="310" value="200" aria-label="Striker position">
+    <p class="instruction" style="margin-top:10px"><strong>2.</strong> Touch the striker, pull back, then release to shoot.</p>
+
+    <div class="action-row">
+      <button onclick="soundOn=!soundOn;this.innerText='Sound: '+(soundOn?'ON':'OFF');unlockAudio()">Sound: ON</button>
+      <button onclick="restartGame()">Restart</button>
+      <button onclick="stopGame()">Stop</button>
+    </div>
+
+    <p class="help-text">
+      Pocket your own colour to play again. In 4-player mode, partners sit opposite:
+      White at the top and bottom, Black at the left and right. In Freestyle,
+      white coins score 20, black 10, and the red queen 50 points.
+    </p>
+  </section>
+</main>
